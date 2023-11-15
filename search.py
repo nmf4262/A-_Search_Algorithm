@@ -1,6 +1,8 @@
 import queue
 import copy
 
+# Anwar Benmallouk and Monte Fernadez
+
 # A node represents a specific state and its corresponding details within the search tree created.
 class Node:
     def __init__(self, state, parent, action, cost, heuristic):
@@ -155,6 +157,24 @@ initial_state, goal_state = read_states("input3.txt")
 solution, total_nodes = a_star_search(initial_state, goal_state)
 path, total_cost = output_optimal_path(solution)
 depth = len(path)
+
+with open("outfile.txt", 'w') as output:
+    for z in range(3):
+        for j in range(3):
+            for i in range(3):
+                output.write(str(initial_state[z][j][i]) + " ")
+            output.write("\n")
+        output.write("\n")
+    for z in range(3):
+        for j in range(3):
+            for i in range(3):
+                output.write(str(goal_state[z][j][i]) + " ")
+            output.write("\n")
+        output.write("\n")
+    output.write("Depth Level: " + str(depth))
+    output.write("\nNodes Generated: " + str(total_nodes))
+    output.write("\nOptimal Path: " + str(path))
+    output.write("\nf(n) of each node: " + str(total_cost))
 
 print("Depth Level:", depth)
 print("Nodes Generated:", total_nodes)
