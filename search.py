@@ -104,44 +104,6 @@ def a_star_search(initial_state, goal_state):
                     total_nodes += 1
 
     return None, total_nodes
-
-    empty_z, empty_y, empty_x = find_position(state, 0)
-
-    if action == "U" and empty_z > 0:
-        new_state = copy.deepcopy(state)
-        new_state[empty_z][empty_y][empty_x] = new_state[empty_z - 1][empty_y][empty_x]
-        new_state[empty_z - 1][empty_y][empty_x] = 0
-        return new_state
-
-    elif action == "D" and empty_z < 2:
-        new_state = copy.deepcopy(state)
-        new_state[empty_z][empty_y][empty_x] = new_state[empty_z + 1][empty_y][empty_x]
-        new_state[empty_z + 1][empty_y][empty_x] = 0
-        return new_state
-    
-    elif action == "N" and empty_y > 0:
-        new_state = copy.deepcopy(state)
-        new_state[empty_z][empty_y][empty_x] = new_state[empty_z][empty_y - 1][empty_x]
-        new_state[empty_z][empty_y - 1][empty_x] = 0
-        return new_state
-
-    elif action == "S" and empty_y < 2:
-        new_state = copy.deepcopy(state)
-        new_state[empty_z][empty_y][empty_x] = new_state[empty_z][empty_y + 1][empty_x]
-        new_state[empty_z][empty_y + 1][empty_x] = 0
-        return new_state
-    
-    elif action == "W" and empty_x > 0:
-        new_state = copy.deepcopy(state)
-        new_state[empty_z][empty_y][empty_x] = new_state[empty_z][empty_y][empty_x - 1]
-        new_state[empty_z][empty_y][empty_x - 1] = 0
-        return new_state
-
-    elif action == "E" and empty_x < 2:
-        new_state = copy.deepcopy(state)
-        new_state[empty_z][empty_y][empty_x] = new_state[empty_z][empty_y][empty_x + 1]
-        new_state[empty_z][empty_y][empty_x + 1] = 0
-        return new_state
 # Returns the nodes within the optimal path and total cost of each node, respectively.                
 def output_optimal_path(node):
     optimal_path = []
@@ -169,7 +131,6 @@ def read_states(file):
         for _ in range(3, 6):
             layer = []
             for _ in range(3):
-                # layer.append(file.readline().strip().split())
                 row = file.readline().strip().split()
                 for i in range(len(row)):
                     row[i] = int(row[i])
@@ -210,47 +171,3 @@ print("f(n) of each node: ", total_cost)
 # root_node = par
 # print(root_node.state)
 # print(root_node.action)
-
-
-##########################################################################
-
-# # def move(state, action):
-#     """Moves the blank tile in the given direction."""
-
-#     blank_x, blank_y, blank_z = find_position(state, 0)
-
-#     if action == "E" and blank_x < 2:
-#         new_state = copy.deepcopy(state)
-#         new_state[blank_x][blank_y][blank_z] = new_state[blank_x + 1][blank_y][blank_z]
-#         new_state[blank_x + 1][blank_y][blank_z] = 0
-#         return new_state
-
-#     elif action == "W" and blank_x > 0:
-#         new_state = copy.deepcopy(state)
-#         new_state[blank_x][blank_y][blank_z] = new_state[blank_x - 1][blank_y][blank_z]
-#         new_state[blank_x - 1][blank_y][blank_z] = 0
-#         return new_state
-
-#     elif action == "N" and blank_y < 2:
-#         new_state = copy.deepcopy(state)
-#         new_state[blank_x][blank_y][blank_z] = new_state[blank_x][blank_y + 1][blank_z]
-#         new_state[blank_x][blank_y + 1][blank_z] = 0
-#         return new_state
-
-#     elif action == "S" and blank_y > 0:
-#         new_state = copy.deepcopy(state)
-#         new_state[blank_x][blank_y][blank_z] = new_state[blank_x][blank_y - 1][blank_z]
-#         new_state[blank_x][blank_y - 1][blank_z] = 0
-#         return new_state
-
-#     elif action == "U" and blank_z < 2:
-#         new_state = copy.deepcopy(state)
-#         new_state[blank_x][blank_y][blank_z] = new_state[blank_x][blank_y][blank_z + 1]
-#         new_state[blank_x][blank_y][blank_z + 1] = 0
-#         return new_state
-
-#     elif action == "D" and blank_z > 0:
-#         new_state = copy.deepcopy(state)
-#         new_state[blank_x][blank_y][blank_z] = new_state[blank_x][blank_y][blank_z - 1]
-#         new_state[blank_x][blank_y][blank_z - 1] = 0
-#         return new_state
