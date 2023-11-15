@@ -1,7 +1,7 @@
 import queue
 import copy
 
-# Anwar Benmallouk and Monte Fernadez
+# Anwar Benmallouk and Monte Fernandez
 
 # A node represents a specific state and its corresponding details within the search tree created.
 class Node:
@@ -19,7 +19,6 @@ class Node:
         return self.cost + self.heuristic
 # The heuristic function used is the manhattan distance, returns the total of all the manhattan distances of the tiles.
 def manhattan_distance(state, goal_state):
-    """Calculates the Manhattan distance between two states."""
     distance = 0
     for i in range(3):
         for j in range(3):
@@ -70,36 +69,30 @@ def move(state, action):
         return new_state
 # Returns the position of a specific value within a state.
 def find_position(state, value):
-    """Finds the position of the blank tile in the given state."""
     for i in range(3):
         for j in range(3):
             for k in range(3):
                 if state[i][j][k] == value:
                     return i, j, k
+                
 # Performs the A* search algorithm and returns the optimal goal node.
 def a_star_search(initial_state, goal_state):
-    """Performs the A* search algorithm to find a solution to the 26-puzzle problem."""
-
     frontier = queue.PriorityQueue()
     visited = []
-    total_nodes = 0
+    total_nodes = 1
 
     frontier.put(Node(initial_state, None, None, 0, manhattan_distance(initial_state, goal_state)))
-    #print(frontier.qsize())
+
     while not frontier.empty():
         node = frontier.get()
-        #print(frontier.qsize())
-        #print("Here1")
 
         if node.state == goal_state:
             return node, total_nodes
 
         if node.state not in visited:
             visited.append(node.state)
-            #print("Here2")
-            for action in ["E", "W", "N", "S", "U", "D"]:
+            for action in ["U", "D", "N", "S", "W", "E"]:
                 new_state = move(node.state, action)
-                #print("Here3")
                 if new_state is not None:
                     new_node = Node(new_state, node, action, node.cost + 1, manhattan_distance(new_state, goal_state))
                     frontier.put(new_node)
@@ -114,7 +107,7 @@ def output_optimal_path(node):
         optimal_path.insert(0, node.action)
         total_cost.insert(0, node.f())
         node = node.parent
-    optimal_path.pop(0)                         # Since the action is "None", just removed it.
+    optimal_path.pop(0)                   # Since the action is "None", just removed it.
     return optimal_path, total_cost
 # Read the initial and goal states.
 def read_states(file):
@@ -151,13 +144,14 @@ goal_state = [
     [[9, 10, 11], [12, 13, 14], [15, 25, 16]],
     [[18, 19, 20], [0, 21, 23], [24, 22, 26]]
 ]
-
-initial_state, goal_state = read_states("input3.txt")
+# Change the parameter of the read_states() function to test a specific test file, in order to read different initial and goal states from different text files.
+initial_state, goal_state = read_states("input2.txt") 
 
 solution, total_nodes = a_star_search(initial_state, goal_state)
 path, total_cost = output_optimal_path(solution)
 depth = len(path)
 
+# The following creates a text file called "outfile.txt", which contains the initial and goal states, including the details regarding the depth level of the shallowest node, the total number of nodes generated within the search tree, the sequence of actions from the root node to the goal node, and the f(n) values of the nodes along the solution path.
 with open("outfile.txt", 'w') as output:
     for z in range(3):
         for j in range(3):
