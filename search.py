@@ -1,5 +1,4 @@
 import copy
-
 class Node:
     def __init__(self, state, parent, action, cost, heuristic):
         self.state = state
@@ -15,21 +14,19 @@ class Node:
         return self.cost + self.heuristic
 
 def manhattan_distance(state, goal_state):
-    """Calculates the Manhattan distance between two states."""
     distance = 0
     for i in range(3):
         for j in range(3):
             for k in range(3):
                 value = state[i][j][k]
                 if value != 0:
-                    goal_i, goal_j, goal_k = find_position(goal_state, value)
-                    distance += abs(i - goal_i) + abs(j - goal_j) + abs(k - goal_k)
+                    g_i, g_j, g_k = find_position(goal_state, value)
+                    distance += abs(i - g_i) + abs(j - g_j) + abs(k - g_k)
     return distance
 
 
 
 def a_star_search(initial_state, goal_state):
-    """Performs the A* search algorithm to find a solution."""
     
     frontier = {}
     visited = set()
@@ -66,8 +63,6 @@ def find_level_path(node):
     fs = []
     while node.parent:
         fs.append(str(node.f()))
-        # print(node.state)
-        # print(node.f())
         path.append(node.action)
         level += 1 
         node = node.parent
@@ -126,20 +121,6 @@ def find_position(state, value):
                     return i, j, k
                 
 
-
-
-initial_state = [
-[[1, 0, 3], [4, 2, 5], [6, 7, 8]],  
-[[9, 10, 11], [12, 13, 14], [15, 16, 17]],
-[[18, 19, 20], [21, 22, 23], [24, 25, 26]]
-]
-
-goal_state = [
-    [[1, 2, 3],[4, 13, 5],[6, 7, 8]],
-    [[9, 10, 11], [15, 12, 14], [24, 16, 17]],
-    [[18, 19, 20], [21, 0, 23], [25, 22, 26]]
-]
-
 def read_puzzle(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -156,20 +137,18 @@ def read_puzzle(file_path):
             initial_state.append(current_sublist)
             current_sublist = []
 
-# Add the last sublist if there are remaining values
+    # Add the last sublist if there are remaining values
     if current_sublist:
         initial_state.append(current_sublist)
-
+    #Do the same for the goalstate
 
     current_sublist = []
     goal_state = []
 
     for line in lines[12:]:
         if line.strip():
-            # If the line is not empty, add its values to the current sublist
             current_sublist.append(list(map(int, line.strip().split())))
         else:
-            # If the line is empty, start a new sublist
             goal_state.append(current_sublist)
             current_sublist = []
 
@@ -214,9 +193,8 @@ def write_answer(file_path, depth_level_d, total_nodes_N, solution_actions, fs):
 
 
 
-
 if __name__ == "__main__":
-    file_path= 'Input3.txt'
+    file_path= 'Input2.txt'
     initial_states, goal_states = read_puzzle(file_path)
     node, level, path, number_nodes, fs = a_star_search(initial_states, goal_states)
     write_answer(file_path, level, number_nodes, path,fs)
